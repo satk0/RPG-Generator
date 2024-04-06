@@ -21,4 +21,12 @@ characters = [
 
 @app.route('/')
 def index():
+    return render_template("index.html", title="RPG Generator")
+
+@app.route('/characters/')
+def get_characters():
     return render_template("characters.html", characters=characters, title="RPG Generator")
+
+@app.route('/user/')
+def get_user():
+    return render_template("user.html", title="RPG Generator")
