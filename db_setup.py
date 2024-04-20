@@ -1,14 +1,9 @@
-from dotenv import load_dotenv
-from os import getenv
 
 from typing import List
 from sqlalchemy import create_engine, String, ForeignKey
 from sqlalchemy.orm import (sessionmaker, DeclarativeBase, relationship,
         mapped_column, Mapped)
 
-load_dotenv()
-
-DB_CONNECTION_STRING = str(getenv("DB_CONNECTION_STRING"))
   
 engine = create_engine(DB_CONNECTION_STRING, echo = True)
 
