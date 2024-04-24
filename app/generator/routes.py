@@ -1,6 +1,7 @@
-from flask import Blueprint
+from flask import Blueprint, render_template, url_for
+
 from app.generator.characters import (
-        get_characters, get_users, load_index
+        get_characters, get_users, load_index, mod, rm_user
         )
 
 generator = Blueprint("generator", __name__)
@@ -16,3 +17,12 @@ def characters():
 @generator.route('/user/')
 def get_user():
     return get_users()
+
+@generator.route('/moderacja/')
+def moderacja():
+    return mod()
+
+@generator.route('/remove_user')
+def remove_user():
+    print(id)
+    return rm_user(idn=id)

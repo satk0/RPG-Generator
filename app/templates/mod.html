@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Moderacyjny</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Dodatkowe style CSS */
+        /* Tutaj możesz dodać własne style dostosowujące wygląd strony */
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Panel Moderacyjny</h1>
+        <!-- Formularz dodawania użytkownika -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Dodaj użytkownika</h5>
+                <form>
+                    <div class="form-group">
+                        <label for="username">Nazwa użytkownika</label>
+                        <input type="text" class="form-control" id="username" placeholder="Wprowadź nazwę użytkownika">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Dodaj</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Lista użytkowników -->
+        <h5>Lista użytkowników:</h5>
+        <ul class="list-group">
+            <!-- Tutaj dynamicznie dodawaj użytkowników z serwera Flask -->
+            {% for character in characters %}
+		        <p> {{character.id}} - {{ character.name }} <a href="{{url_for('generator.remove_user',id=character.id)}}"><div class="btn btn-sm btn-danger">Usuń</div></a></p>
+	        {% endfor %}
+            <!-- Przykładowe statyczne elementy listy -->
+        </ul>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
