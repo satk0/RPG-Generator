@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+  <h1>{{ title }}</h1>
+{% endblock %}
+
+{% block body %}
+	{% for character in characters %}
+		<p> {{character.id}} - {{ character.name }} </p>
+	{% endfor %}
+{% endblock %}
