@@ -2,10 +2,6 @@ from flask import render_template
 from app.characters.models import Character
 from app.shared.models import db
 
-lol = {
-    "id": 1
-    }
-
 def load_index():
     return render_template("index.html", title="RPG Generator")
 
