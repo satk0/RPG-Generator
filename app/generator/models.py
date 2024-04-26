@@ -1,13 +1,20 @@
-from typing import List
+from typing import List, TYPE_CHECKING
 
-from sqlalchemy import Integer, String, ForeignKey
+from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.shared.models import db
 
+# https://github.com/sqlalchemy/sqlalchemy/discussions/9576
+if TYPE_CHECKING:
+    from app.account.models import User
+
 class Character(db.Model):
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id: Mapped[str] = mapped_column(String(60), primary_key=True)
     name: Mapped[str] = mapped_column(String(60), unique=True)
+
+    user_id: Mapped[str] = mapped_column(ForeignKey("user.id"))
+    user: Mapped["User"] = relationship(back_populates="characters")
 
     attributes: Mapped[List["Attribute"]] = relationship(back_populates="character")
     skills: Mapped[List["Skill"]] = relationship(back_populates="character")

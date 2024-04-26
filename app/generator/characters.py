@@ -1,5 +1,5 @@
 from flask import render_template
-from app.characters.models import Character
+from app.generator.models import Character
 from app.shared.models import db
 
 def load_index():

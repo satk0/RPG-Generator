@@ -9,10 +9,10 @@ generator = Blueprint("generator", __name__)
 def index():
     return load_index()
 
-@generator.route('/characters/', methods=["GET","POST"])
+@generator.route('/characters', methods=["GET","POST"])
 def characters():
     return get_characters()
 
-@generator.route('/user/')
+@generator.route('/user')
 def get_user():
     return get_users()
