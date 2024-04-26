@@ -4,7 +4,7 @@ RPG Generator Web App made using Flask
 ## Setup:
 1. .env configuration:
 ```python
-SQLALCHEMY_DATABASE_URI=sqlite:///path/to/database.db
+SQLALCHEMY_DATABASE_URI=<database-connection-string>
 ```
 
 2. Python libs:
