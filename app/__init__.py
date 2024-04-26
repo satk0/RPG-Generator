@@ -9,12 +9,15 @@ from app.shared.utils import populate_db
 from app.generator.routes import generator
 from app.account.routes import account
 
+from flask_jwt_extended import JWTManager
 
 load_dotenv()
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = str(getenv("SQLALCHEMY_DATABASE_URI"))
+app.config["JWT_SECRET_KEY"] = "super-secret"  # TODO: hide it
 
+jwt = JWTManager(app)
 
 with app.app_context():
     db.init_app(app)

@@ -1,14 +1,19 @@
 from flask import Blueprint, jsonify
 from app.account.account import (
-            login, register_user, show_register_page
+            show_login_page, login_user,
+            register_user, show_register_page
         )
 from app.account.models import User
 
 account = Blueprint("account", __name__)
 
-@account.route('/login')
+@account.route('/login', methods=['GET'])
 def render_login():
-    return login()
+    return show_login_page()
+
+@account.route('/login', methods=['POST'])
+def login():
+    return login_user()
 
 @account.route('/register', methods=['GET'])
 def render_register():
