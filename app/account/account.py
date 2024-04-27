@@ -4,13 +4,11 @@ from uuid import uuid4
 from flask_jwt_extended import (
         create_access_token, create_refresh_token,
         set_refresh_cookies, set_access_cookies,
-        verify_jwt_in_request
+        verify_jwt_in_request, unset_jwt_cookies
         )
 
 from app.account.models import User
 from app.shared.models import db
-
-
 
 def show_login_page():
     jwt = verify_jwt_in_request(optional=True)
@@ -29,6 +27,7 @@ def login_user():
        return make_response('could not verify', 401, {'Authentication': 'login required"'})   
 
     print("USER:", user.name)
+    print("USER:", user.id)
 
     access_token = create_access_token(identity=user)
     refresh_token = create_refresh_token(identity=user)
@@ -41,8 +40,17 @@ def login_user():
 
     return response
 
+def logout_user():
+    resp = make_response(redirect(url_for("account.render_login")))
+    unset_jwt_cookies(resp)
+
+    return resp
 
 def show_register_page():
+    jwt = verify_jwt_in_request(optional=True)
+    if jwt:
+        return redirect(url_for("generator.index"))
+
     return render_template("register.html", title="RPG Generator")
 
 def register_user():

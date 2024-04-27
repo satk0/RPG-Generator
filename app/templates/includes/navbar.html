@@ -7,11 +7,19 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/characters">Postacie</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/login">Logowanie</a>
+		<li class="nav-item dropdown">
+          <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true">
+          Uzytkownik
+          </button>
+          <ul class="dropdown-menu dropdown-menu-black">
+            <li><a class="dropdown-item" href="characters">Postacie</a></li>
+			<form method="post" action="logout">
+			  <input type="hidden" name="name" value="value" /> 
+			  <a class="dropdown-item" href="logout" onclick="this.parentNode.submit();">Wyloguj</a>
+			</form>
+
+			<!-- <li><a class="dropdown-item" href="logout"></a></li> -->
+          </ul>
         </li>
       </ul>
     </div>

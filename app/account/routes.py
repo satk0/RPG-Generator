@@ -1,7 +1,8 @@
 from flask import Blueprint, jsonify
 from app.account.account import (
             show_login_page, login_user,
-            register_user, show_register_page
+            register_user, show_register_page,
+            logout_user
         )
 from app.account.models import User
 
@@ -14,6 +15,10 @@ def render_login():
 @account.route('/login', methods=['POST'])
 def login():
     return login_user()
+
+@account.route('/logout', methods=['POST'])
+def logout():
+    return logout_user()
 
 @account.route('/register', methods=['GET'])
 def render_register():
