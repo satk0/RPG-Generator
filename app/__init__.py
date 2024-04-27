@@ -5,7 +5,7 @@ from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
 
-from flask import Flask
+from flask import Flask, url_for, redirect, make_response
 
 from app.shared.models import db
 from app.shared.utils import populate_db
@@ -14,7 +14,7 @@ from app.generator.routes import generator
 from app.account.routes import account
 from app.account.models import User
 
-from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, get_jwt_identity, get_jwt, set_access_cookies, set_refresh_cookies, current_user
+from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, get_jwt_identity, get_jwt, set_access_cookies, set_refresh_cookies, current_user, unset_jwt_cookies
 
 
 
@@ -40,16 +40,17 @@ def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
     return db.session.execute(db.select(User).filter_by(id=identity)).scalar()
 
+@jwt.expired_token_loader
+def expired_token_callback(jwt_header, jwt_data):
+    resp = make_response(redirect(url_for("account.render_login")))
+    unset_jwt_cookies(resp)
+    return resp
+
+
 @app.after_request
 def refresh_expiring_jwts(response):
-    print("lol")
     try:
-        print('test')
         exp_timestamp = get_jwt()["exp"]
-        print('test2')
-        print(exp_timestamp)
-        print(current_user.id)
-        print('test3')
         now = datetime.now(timezone.utc)
         target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
         if target_timestamp > exp_timestamp:

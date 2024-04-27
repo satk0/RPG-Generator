@@ -9,6 +9,7 @@ generator = Blueprint("generator", __name__)
 
 @generator.route('/')
 def index():
+    print("test")
     return load_index()
 
 @generator.route('/characters', methods=["GET","POST"])

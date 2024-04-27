@@ -8,17 +8,14 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
 		<li class="nav-item dropdown">
-          <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true">
-          Uzytkownik
+          <button class="btn btn-white dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true">
+		  {{ username }}
           </button>
-          <ul class="dropdown-menu dropdown-menu-black">
+          <ul class="dropdown-menu dropdown-menu-end">
             <li><a class="dropdown-item" href="characters">Postacie</a></li>
 			<form method="post" action="logout">
-			  <input type="hidden" name="name" value="value" /> 
-			  <a class="dropdown-item" href="logout" onclick="this.parentNode.submit();">Wyloguj</a>
+			  <button name="logout-btn" class="dropdown-item" value="logout">Wyloguj</button>
 			</form>
-
-			<!-- <li><a class="dropdown-item" href="logout"></a></li> -->
           </ul>
         </li>
       </ul>
