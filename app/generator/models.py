@@ -13,9 +13,10 @@ if TYPE_CHECKING:
 
 class Name(db.Model):
     id: Mapped[str] = mapped_column(String(60), primary_key=True)
-    name: Mapped[str] = mapped_column(String(60), nullable=False)
+    name: Mapped[str] = mapped_column(String(60), nullable=False, unique=True)
 
 class Character(db.Model):
+    id: Mapped[str]  = mapped_column(String, primary_key=True)
     timestamp: Mapped[datetime.datetime]  = mapped_column(DateTime, primary_key=True)
 
     user_id: Mapped[str] = mapped_column(ForeignKey("user.id"))
@@ -24,7 +25,7 @@ class Character(db.Model):
     name_id: Mapped[str] = mapped_column(ForeignKey("name.id"))
     name: Mapped["Name"] = relationship()
 
-    attributes: Mapped[List["Attribute"]] = relationship(back_populates="character")
+    attributes: Mapped[List["Attribute"]] = relationship(secondary='character_attribute')
     skills: Mapped[List["Skill"]] = relationship(back_populates="character")
     items: Mapped[List["Item"]] = relationship(back_populates="character")
 
@@ -32,8 +33,12 @@ class Attribute(db.Model):
     id: Mapped[str] = mapped_column(String(60), primary_key=True)
     name: Mapped[str]  = mapped_column(String(50), nullable=False)
 
-    character_id: Mapped[str] = mapped_column(ForeignKey("character.timestamp"))
-    character: Mapped["Character"] = relationship(back_populates="attributes")
+# https://stackoverflow.com/a/69995324
+class CharacterAtribute(db.Model):
+    __tablename__ = 'character_attribute'
+
+    character_timestamp: Mapped[datetime.datetime] = mapped_column(ForeignKey("character.id"), primary_key=True)
+    attribute_id: Mapped[str] = mapped_column(ForeignKey("attribute.id"), primary_key=True)
 
 class Skill(db.Model):
     id: Mapped[str] = mapped_column(String(60), primary_key=True)
@@ -48,4 +53,5 @@ class Item(db.Model):
 
     character_id: Mapped[str] = mapped_column(ForeignKey("character.timestamp"))
     character: Mapped["Character"] = relationship(back_populates="items")
+
 

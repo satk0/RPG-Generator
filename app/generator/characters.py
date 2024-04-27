@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, jsonify
-from app.generator.models import Character
+from app.generator.models import Character, Name
 from app.shared.models import db
 
 from flask_jwt_extended import verify_jwt_in_request, current_user
@@ -18,7 +18,6 @@ def get_characters():
         return redirect(url_for("account.login"))
 
     characters = db.session.execute(db.select(Character)).scalars()
-    print(characters)
     result = []  
     for ch in characters:  
         character_data = {}  
@@ -26,6 +25,17 @@ def get_characters():
         character_data['name'] = ch.name.name 
      
         result.append(character_data)  
+
+    character = db.session.execute(db.select(Character).join(Name).filter_by(name='n2')).scalar()
+
+    if not character:
+        return 
+
+    print(character.timestamp)
+    print(character.attributes)
+
+    for a in character.attributes:
+        print(a.name)
 
     return jsonify({'characters': result})
     #return render_template("characters.html", characters=characters, title="RPG Generator",
