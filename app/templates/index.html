@@ -3,7 +3,9 @@
 {% block body %}
 <div class="jumbotron">
 	<div class="text-center">
-		<a class="btn btn-primary btn-lg" href="/generate" role="button">Generuj postać</a>
+		<form method="post" action="/">
+		  <button name="generate-btn" class="btn btn-primary btn-lg" value="generate">Generuj postać</button>
+		</form>
 	</div>
   </div>
 {% endblock %}

@@ -6,16 +6,14 @@ from datetime import datetime
 from datetime import timezone as tz
 
 def populate_db():
-    n1 = Name(id='1', name='n1')
-    n2 = Name(id='2', name='n2')
-    n3 = Name(id='3', name='n3')
+    n1 = Name(name='n1')
+    n2 = Name(name='n2')
+    n3 = Name(name='n3')
 
-    db.session.add(n1)
-    db.session.add(n2)
-    db.session.add(n3)
+    db.session.add_all([n1, n2, n3])
 
     for i in range(4,6):
-        db.session.add(Name(id=str(i), name='n'+str(i)))
+        db.session.add(Name(name='n'+str(i)))
 
     u1 = User(id='1', name='u1', password='pass', moderator=False)
     db.session.add(u1)
@@ -23,23 +21,38 @@ def populate_db():
     #for i in range(1,6):
     #    db.session.add(Skill(id=str(i), name='s' + str(i)))
 
-    a1 = Attribute(id=1, name='a1')
-    a2 = Attribute(id=2, name='a2')
-    a3 = Attribute(id=3, name='a3')
+    a1 = Attribute(name='a1')
+    a2 = Attribute(name='a2')
+    a3 = Attribute(name='a3')
+
+    db.session.add_all([a1, a2, a3])
     #for i in range(1,6):
     #    db.session.add(Attribute(id=str(i), name='a' + str(i)))
 
+    s1 = Skill(name='s1')
+    s2 = Skill(name='s2')
+    s3 = Skill(name='s3')
+
+    db.session.add_all([s1, s2, s3])
+
+    i1 = Item(name='i1')
+    i2 = Item(name='i2')
+    i3 = Item(name='i3')
+
+    db.session.add_all([i1, i2, i3])
 
     #for i in range(1,6):
     #    db.session.add(Item(id=str(i), name='i' + str(i)))
-    c1 = Character(id='1', timestamp=datetime.now(tz.utc), name=n2, user=u1)
+    c1 = Character(timestamp=datetime.now(tz.utc), name=n2, user=u1)
     c1.attributes = [a1, a2]
 
-    c2 = Character(id='2', timestamp=datetime.now(tz.utc), name=n3, user=u1)
+    c2 = Character(timestamp=datetime.now(tz.utc), name=n3, user=u1)
     c2.attributes = [a1, a3]
+    c2.skills = [s1, s3]
+    c2.items = [i1, i3]
 
     db.session.add(c1)
     db.session.add(c2)
-    db.session.add(Character(id='3', timestamp=datetime.now(tz.utc), name=n1, user=u1))
-    db.session.add(Character(id='4', timestamp=datetime.now(tz.utc), name=n1, user=u1))
+    db.session.add(Character(timestamp=datetime.now(tz.utc), name=n1, user=u1))
+    db.session.add(Character(timestamp=datetime.now(tz.utc), name=n1, user=u1))
     db.session.commit()

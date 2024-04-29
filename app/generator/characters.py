@@ -21,12 +21,13 @@ def get_characters():
     result = []  
     for ch in characters:  
         character_data = {}  
+        character_data['id'] = ch.id 
         character_data['timestamp'] = ch.timestamp 
         character_data['name'] = ch.name.name 
      
         result.append(character_data)  
 
-    character = db.session.execute(db.select(Character).join(Name).filter_by(name='n2')).scalar()
+    character = db.session.execute(db.select(Character).join(Name).filter_by(name='n3')).scalar()
 
     if not character:
         return 
@@ -34,12 +35,24 @@ def get_characters():
     print(character.timestamp)
     print(character.attributes)
 
+    print("Attributes:")
     for a in character.attributes:
         print(a.name)
+
+    print("Skills:")
+    for s in character.skills:
+        print(s.name)
+
+    print("Items:")
+    for i in character.items:
+        print(i.name)
 
     return jsonify({'characters': result})
     #return render_template("characters.html", characters=characters, title="RPG Generator",
     #                       username=current_user.name)
+
+def generate_character():
+    return jsonify({'should': "generate"})
 
 def get_users():
     return render_template("user.html", title="RPG Generator")

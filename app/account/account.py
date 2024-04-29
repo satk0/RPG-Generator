@@ -26,12 +26,8 @@ def login_user():
     if not user:
        return make_response('could not verify', 401, {'Authentication': 'login required"'})   
 
-    print("USER:", user.name)
-    print("USER:", user.id)
-
     access_token = create_access_token(identity=user)
     refresh_token = create_refresh_token(identity=user)
-    print("ACCESS_TOKEN:", access_token, refresh_token)
     
     #return redirect(url_for("generator.characters"))
     response = make_response(redirect(url_for("generator.characters")))
