@@ -1,6 +1,8 @@
-from flask import render_template, redirect, url_for, jsonify
-from app.generator.models import Character, Name
+from flask import render_template, redirect, url_for, jsonify, make_response
+from app.generator.models import Character, Name, Skill
 from app.shared.models import db
+
+from sqlalchemy import func
 
 from flask_jwt_extended import verify_jwt_in_request, current_user
 
@@ -12,7 +14,7 @@ def load_index():
 
     return render_template("index.html", title="RPG Generator", username=current_user.name)
 
-def get_characters():
+def show_characters():
     jwt = verify_jwt_in_request(optional=True)
     if not jwt:
         return redirect(url_for("account.login"))
@@ -52,7 +54,25 @@ def get_characters():
     #                       username=current_user.name)
 
 def generate_character():
-    return jsonify({'should': "generate"})
+    #jwt = verify_jwt_in_request(optional=True)
+    #if not jwt:
+    #    return redirect(url_for("account.login"))
+
+    skills = db.session.execute(db.select(Skill).order_by(func.random()).limit(3)).scalars()
+
+    result = []  
+    for s in skills:  
+        skill_data = {}  
+        skill_data['id'] = s.id 
+        skill_data['name'] = s.name
+
+        result.append(skill_data)  
+
+    print("Generated skills:")
+    print(result)
+
+    #return make_response(jsonify({'should': "generate"}))
+    return jsonify({'id': 1})
 
 def get_users():
     return render_template("user.html", title="RPG Generator")

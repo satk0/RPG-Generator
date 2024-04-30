@@ -30,7 +30,7 @@ def login_user():
     refresh_token = create_refresh_token(identity=user)
     
     #return redirect(url_for("generator.characters"))
-    response = make_response(redirect(url_for("generator.characters")))
+    response = make_response(redirect(url_for("generator.index")))
     set_access_cookies(response, access_token)
     set_refresh_cookies(response, refresh_token)
 

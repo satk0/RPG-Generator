@@ -25,6 +25,9 @@ def populate_db():
     a2 = Attribute(name='a2')
     a3 = Attribute(name='a3')
 
+    for i in range(4,6):
+        db.session.add(Attribute(name='a'+str(i)))
+
     db.session.add_all([a1, a2, a3])
     #for i in range(1,6):
     #    db.session.add(Attribute(id=str(i), name='a' + str(i)))
@@ -33,11 +36,17 @@ def populate_db():
     s2 = Skill(name='s2')
     s3 = Skill(name='s3')
 
+    for i in range(4,6):
+        db.session.add(Skill(name='s'+str(i)))
+
     db.session.add_all([s1, s2, s3])
 
     i1 = Item(name='i1')
     i2 = Item(name='i2')
     i3 = Item(name='i3')
+
+    for i in range(4,6):
+        db.session.add(Item(name='i'+str(i)))
 
     db.session.add_all([i1, i2, i3])
 
