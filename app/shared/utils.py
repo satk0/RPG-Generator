@@ -52,16 +52,16 @@ def populate_db():
 
     #for i in range(1,6):
     #    db.session.add(Item(id=str(i), name='i' + str(i)))
-    c1 = Character(timestamp=datetime.now(tz.utc), name=n2, user=u1)
-    c1.attributes = [a1, a2]
+    #c1 = Character(timestamp=datetime.now(tz.utc), name=n2, user=u1)
+    #c1.attributes = [a1, a2]
 
-    c2 = Character(timestamp=datetime.now(tz.utc), name=n3, user=u1)
-    c2.attributes = [a1, a3]
-    c2.skills = [s1, s3]
-    c2.items = [i1, i3]
+    #c2 = Character(timestamp=datetime.now(tz.utc), name=n3, user=u1)
+    #c2.attributes = [a1, a3]
+    #c2.skills = [s1, s3]
+    #c2.items = [i1, i3]
 
-    db.session.add(c1)
-    db.session.add(c2)
-    db.session.add(Character(timestamp=datetime.now(tz.utc), name=n1, user=u1))
-    db.session.add(Character(timestamp=datetime.now(tz.utc), name=n1, user=u1))
+    #db.session.add(c1)
+    #db.session.add(c2)
+    #db.session.add(Character(timestamp=datetime.now(tz.utc), name=n1, user=u1))
+    #db.session.add(Character(timestamp=datetime.now(tz.utc), name=n1, user=u1))
     db.session.commit()

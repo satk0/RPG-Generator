@@ -11,7 +11,7 @@ generator = Blueprint("generator", __name__)
 def index():
     return load_index()
 
-@generator.route('/generate', methods=["POST"])
+@generator.route('/', methods=["POST"])
 @jwt_required()
 def post_index():
     return generate_character()

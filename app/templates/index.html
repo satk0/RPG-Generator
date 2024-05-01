@@ -4,6 +4,7 @@
 {% block body %}
 
 <!-- https://github.com/vimalloc/flask-jwt-extended/issues/385 -->
+<!-- move to layout.html -->
 <script type = "text/javascript">
 	function getCookie(name) {
 		const value = `; ${document.cookie}`;
@@ -16,10 +17,9 @@
 		  method: 'post',
 		  headers: {
 			'X-CSRF-TOKEN': getCookie('csrf_access_token'),
-		  },
-		  redirect: 'manual'
+		  }
 		};
-		const response = await fetch('/generate', options);
+		const response = await fetch('/', options);
 		const result = await response.json();
 		console.log(result["id"]);
 
