@@ -5,6 +5,8 @@ from app.account.account import (
             logout_user
         )
 from app.account.models import User
+from flask_jwt_extended import jwt_required
+
 
 account = Blueprint("account", __name__)
 
@@ -17,6 +19,7 @@ def login():
     return login_user()
 
 @account.route('/logout', methods=['POST'])
+@jwt_required()
 def logout():
     return logout_user()
 

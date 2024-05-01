@@ -12,17 +12,9 @@ from datetime import timezone as tz
 
 
 def load_index():
-    jwt = verify_jwt_in_request(optional=True)
-    if not jwt:
-        return redirect(url_for("account.login"))
-
     return render_template("index.html", title="RPG Generator", username=current_user.name)
 
 def show_characters():
-    jwt = verify_jwt_in_request(optional=True)
-    if not jwt:
-        return redirect(url_for("account.login"))
-
     characters = db.session.execute(db.select(Character)
                                         .join(User)
                                         .filter_by(id=current_user.id)).scalars()
@@ -59,10 +51,36 @@ def show_characters():
     #return render_template("characters.html", characters=characters, title="RPG Generator",
     #                       username=current_user.name)
 
+def show_character(character_id):
+
+    ch = db.one_or_404(db.select(Character)
+                                        .filter_by(id=character_id)
+                                        .join(User)
+                                        .filter_by(id=current_user.id))
+    character_data = {}  
+    character_data['id'] = ch.id 
+    character_data['timestamp'] = ch.timestamp 
+    character_data['name'] = ch.name.name 
+    character_data['uid'] = ch.user.id
+
+    skill_list = [s.name for s in ch.skills]
+    print("skill list:")
+    print(skill_list)
+    character_data['skills'] = skill_list
+
+    attributes_list = [a.name for a in ch.attributes]
+    print("attributes list:")
+    print(attributes_list)
+    character_data['attributes'] = attributes_list
+
+    items_list = [i.name for i in ch.items]
+    print("items list:")
+    print(items_list)
+    character_data['items'] = items_list
+
+    return jsonify(character_data)
+
 def generate_character():
-    #jwt = verify_jwt_in_request(optional=True)
-    #if not jwt:
-    #    return redirect(url_for("account.login"))
 
     name = db.first_or_404(db.select(Name).order_by(func.random()))
 

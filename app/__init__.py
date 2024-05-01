@@ -16,10 +16,6 @@ from app.account.models import User
 
 from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, get_jwt_identity, get_jwt, set_access_cookies, set_refresh_cookies, current_user, unset_jwt_cookies
 
-#from flask_wtf import CSRFProtect
-
-
-
 
 load_dotenv()
 
@@ -50,6 +46,11 @@ def user_lookup_callback(_jwt_header, jwt_data):
 def expired_token_callback(jwt_header, jwt_data):
     resp = make_response(redirect(url_for("account.render_login")))
     unset_jwt_cookies(resp)
+    return resp
+
+@jwt.unauthorized_loader
+def unauthorized_token_callback(jwt_why):
+    resp = make_response(redirect(url_for("account.render_login")))
     return resp
 
 @app.after_request
