@@ -6,31 +6,17 @@
 <!-- https://github.com/vimalloc/flask-jwt-extended/issues/385 -->
 <!-- move to layout.html -->
 <script type = "text/javascript">
-	function getCookie(name) {
-		const value = `; ${document.cookie}`;
-		const parts = value.split(`; ${name}=`);
-		if (parts.length === 2) return parts.pop().split(';').shift();
-	}
+	async function postIndex() {
+		res = await makeRequestWithJWT("post", "/") 
 
-	async function makeRequestWithJWT() {
-		const options = {
-		  method: 'post',
-		  headers: {
-			'X-CSRF-TOKEN': getCookie('csrf_access_token'),
-		  }
-		};
-		const response = await fetch('/', options);
-		const result = await response.json();
-		console.log(result["id"]);
-
-		id = result["id"];
+		id = res["id"];
 		location.href = `/character/${id}`;
 	}
 </script>
 
 <div class="jumbotron">
 	<div class="text-center">
-	  <button name="generate-btn1" class="btn btn-primary btn-lg" onclick="makeRequestWithJWT();" value="generate">Generuj postać</button>
+	  <button name="generate-btn1" class="btn btn-primary btn-lg" onclick="postIndex();" value="generate">Generuj postać</button>
 	</div>
   </div>
 {% endblock %}

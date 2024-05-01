@@ -54,9 +54,9 @@ def show_characters():
 def show_character(character_id):
 
     ch = db.one_or_404(db.select(Character)
-                                        .filter_by(id=character_id)
-                                        .join(User)
-                                        .filter_by(id=current_user.id))
+                        .filter_by(id=character_id)
+                        .join(User)
+                        .filter_by(id=current_user.id))
     character_data = {}  
     character_data['id'] = ch.id 
     character_data['timestamp'] = ch.timestamp 
