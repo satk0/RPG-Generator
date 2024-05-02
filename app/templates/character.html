@@ -1,23 +1,23 @@
-{% extends 'anon_layout.html' %}
+{% extends 'layout.html' %}
 
-<!-- przerobione https://github.com/nauvalazhar/bootstrap-5-login-page/tree/master -->
-<script type = "text/javascript">
-	async function putIndex(id) {
-		res = await makeRequestWithJWT("put", "/id") 
-
-		id = res["id"];
-		location.href = `/character/${id}`;
-	}
-
-	async function delete(id) {
-		res = await makeRequestWithJWT("delete", "/character/id") 
-
-		location.href = '/';
-	}
-</script>
 
 
 {% block body %}
+	<script type = "text/javascript">
+		async function putIndex(id) {
+			res = await makeRequestWithJWT("put", "/id") 
+
+			id = res["id"];
+			location.href = `/character/${id}`;
+		}
+
+		async function deleteCharacter(id) {
+			res = await makeRequestWithJWT("delete", `/character/${id}`) 
+
+			location.href = "{{ url_for('generator.index') }}";
+		}
+	</script>
+
 	<section class="h-100">
 		<div class="container h-100 text-center">
 			<div class="row justify-content-sm-center h-100">
@@ -61,7 +61,7 @@
 								  <button type="button" class="btn btn-primary" onclick="putIndex({{ character.id }});" value="regenerate">Generuj ponownie</button>
 							  </div>
 							  <div class="col">
-								  <button type="button" class="btn btn-danger" onclick="delete({{ character.id }});" value="delete">Usuń</button>
+								  <button type="button" class="btn btn-danger" onclick="deleteCharacter({{ character.id }});" value="delete">Usuń</button>
 							  </div>
 							</div>
 							<!--

@@ -1,7 +1,7 @@
 from flask import Blueprint
 from app.generator.characters import (
         show_characters, get_users, load_index, generate_character,
-        show_character
+        show_character, remove_character
         )
 
 from flask_jwt_extended import jwt_required
@@ -22,6 +22,11 @@ def post_index():
 @jwt_required()
 def character(character_id):
     return show_character(character_id)
+
+@generator.route('/character/<int:character_id>', methods=["DELETE"])
+@jwt_required()
+def delete_character(character_id):
+    return remove_character(character_id)
 
 @generator.route('/characters', methods=["GET"])
 @jwt_required()

@@ -50,6 +50,16 @@ def show_characters():
     return jsonify({'characters': result})
     #return render_template("characters.html", characters=characters, title="RPG Generator",
     #                       username=current_user.name)
+def remove_character(character_id):
+    ch = db.one_or_404(db.select(Character)
+                        .filter_by(id=character_id)
+                        .join(User)
+                        .filter_by(id=current_user.id))
+
+    db.session.delete(ch)
+    db.session.commit()
+
+    return jsonify({})
 
 def show_character(character_id):
 
