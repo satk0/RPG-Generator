@@ -59,7 +59,8 @@ def show_character(character_id):
                         .filter_by(id=current_user.id))
     character_data = {}  
     character_data['id'] = ch.id 
-    character_data['timestamp'] = ch.timestamp 
+    character_data['timestamp'] = ch.timestamp.strftime("%d.%m.%Y %H:%M:%S")
+
     character_data['name'] = ch.name.name 
     character_data['uid'] = ch.user.id
 
@@ -78,7 +79,11 @@ def show_character(character_id):
     print(items_list)
     character_data['items'] = items_list
 
-    return jsonify(character_data)
+    print("character_data")
+    print(character_data)
+    #return jsonify(character_data)
+    return render_template("character.html", character=character_data, title="RPG Generator",
+                           username=current_user.name)
 
 def generate_character():
 
