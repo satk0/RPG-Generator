@@ -1,6 +1,6 @@
 from flask import Blueprint
 from app.generator.characters import (
-        show_characters, get_users, load_index, generate_character,
+        get_users, load_index, generate_character,
         show_character, remove_character
         )
 
@@ -27,11 +27,6 @@ def character(character_id):
 @jwt_required()
 def delete_character(character_id):
     return remove_character(character_id)
-
-@generator.route('/characters', methods=["GET"])
-@jwt_required()
-def characters():
-    return show_characters()
 
 @generator.route('/user')
 def get_user():

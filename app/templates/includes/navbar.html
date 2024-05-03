@@ -9,10 +9,10 @@
       <ul class="navbar-nav ms-auto">
 		<li class="nav-item dropdown">
           <button class="btn btn-white dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true">
-		  {{ username }}
+		  {{ user.name }}
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="characters">Postacie</a></li>
+			  <li><a class="dropdown-item" href="{{ url_for('account.get_characters', user_id=user.id) }}">Postacie</a></li>
 			<form method="post" action="logout">
 			<li><button name="logout-btn" class="dropdown-item" value="logout">Wyloguj</button></li>
 			</form>

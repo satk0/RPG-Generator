@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, make_response
+from flask import render_template, request, redirect, url_for, make_response, jsonify, abort
 
 from uuid import uuid4
 from flask_jwt_extended import (
@@ -62,10 +62,14 @@ def register_user():
     #return form
     return redirect(url_for("account.render_login"))
 
-def show_characters():
+def show_characters(user_id):
+    if (not current_user.id == user_id and not current_user.moderator):
+        print("LOL", current_user.id)
+        abort(404)  
+
     characters = db.session.execute(db.select(Character)
                                         .join(User)
-                                        .filter_by(id=current_user.id)).scalars()
+                                        .filter_by(id=user_id)).scalars()
     result = []  
     for ch in characters:  
         character_data = {}  
