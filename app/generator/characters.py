@@ -112,25 +112,15 @@ def generate_character():
     print(name.name)
 
     print(current_user.name)
-    #print("skills:")
-    #print(skills)
 
     c = Character(
-            timestamp=datetime.now(tz.utc), name=name, user=current_user,
+            timestamp=datetime.now(), name=name, user=current_user,
             skills = skills_list, attributes=attributes_list,
             items = items_list
         )
-    print("character")
-    print(c)
-    #c.skills = skills
 
-    print("test add")
     db.session.add(c)
-    print("test commit")
     db.session.commit()
-    #c2.attributes = [a1, a3]
-    #c2.skills = [s1, s3]
-    #c2.items = [i1, i3]
 
     result = []  
     for s in skills:  

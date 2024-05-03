@@ -19,55 +19,55 @@
 	</script>
 
 	<section class="h-100">
-		<div class="container h-100 text-center">
-			<div class="row justify-content-sm-center h-100">
-				<div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
-					<div class="card shadow-lg">
-						<div class="card-header">
-							<h1 class="fs-4 card-title fw-bold mt-3 mb-3"> {{ character.name }}</h1>
-						</div>
-						<div class="card-body p-3">
-							<p> {{ character.timestamp }} </p>
-							  <div class="row">
-								<div class="col border">
-								  Umiejętności:
-								  <ul>
-								  {% for s in character.skills %}
-									  <li> {{ s }} </li>
-								  {% endfor %}
-								  </ul>
-								</div>
-								<div class="col border">
-								  Cechy:
-								  <ul>
-								  {% for a in character.attributes %}
-									  <li> {{ a }} </li>
-								  {% endfor %}
-								  </ul>
-								</div>
-								<div class="col border">
-								  Przedmioty:
-								  <ul>
-								  <!-- avoid character.items() error -->
-								  {% for i in character.get('items') %}
-									  <li> {{ i }} </li> {% endfor %}
-								  </ul>
-								</div>
-							  </div>
-						</div>
-						<div class="card-footer py-3 border-0">
-							<div class="row">
-							  <div class="col">
-								  <button type="button" class="btn btn-primary" onclick="putIndex({{ character.id }});" value="regenerate">Generuj ponownie</button>
-							  </div>
-							  <div class="col">
-								  <button type="button" class="btn btn-danger" onclick="deleteCharacter({{ character.id }});" value="delete">Usuń</button>
-							  </div>
+		<div class="container h-100">
+			<div class="row justify-content-center pe-4 h-100">
+				<div class="card shadow-lg" style="width: 50rem;">
+					<div class="card-header">
+							<h1 class="fs-4 card-title fw-bold mt-3 mb-3 text-center"> {{ character.name }}</h1>
+						
+					</div>
+					<div class="card-body p-3">
+						<p class="text-center"> {{ character.timestamp }} </p>
+						  <div class="row">
+							<div class="col border">
+							  <p class="mb-1 pb-1 mt-2 text-center">Umiejętności:</p>
+							  <ul class="list-group">
+							  {% for s in character.skills %}
+								  <li class="list-group-item p-1 text-center"> {{ s }} </li>
+							  {% endfor %}
+							  </ul>
 							</div>
-							<!--
-							<a href="register" class="text-dark">Rejestracja</a>
-							-->
+							<div class="col border">
+							  <p class="mb-1 pb-1 mt-2 text-center">Cechy:</p>
+							  <ul class="list-group">
+							  {% for a in character.attributes %}
+								  <li class="list-group-item p-1 text-center"> {{ a }} </li>
+							  {% endfor %}
+							  </ul>
+							</div>
+							<div class="col border">
+							  <p class="mb-1 pb-1 mt-2 text-center">Przedmioty:</p>
+							  <ul class="list-group">
+							  <!-- avoid character.items() error -->
+							  {% for i in character.get('items') %}
+								  <li class="list-group-item p-1 text-center"> {{ i }} </li>
+							  {% endfor %}
+							  </ul>
+							</div>
+						  </div>
+					</div>
+					<div class="card-footer py-3 border-0 text-center">
+						<div class="row">
+						  <div class="col">
+							  <button type="button" class="btn btn-primary" onclick="putIndex({{ character.id }});" value="regenerate">Generuj ponownie</button>
+						  </div>
+						  <div class="col">
+							  <button type="button" class="btn btn-danger" onclick="deleteCharacter({{ character.id }});" value="delete">Usuń</button>
+						  </div>
 						</div>
+						<!--
+						<a href="register" class="text-dark">Rejestracja</a>
+						-->
 					</div>
 				</div>
 			</div>

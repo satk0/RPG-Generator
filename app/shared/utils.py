@@ -6,9 +6,9 @@ from datetime import datetime
 from datetime import timezone as tz
 
 def populate_db():
-    n1 = Name(name='n1')
-    n2 = Name(name='n2')
-    n3 = Name(name='n3')
+    n1 = Name(name='Nazwa Bohatera pierwszego')
+    n2 = Name(name='Nazwa Bohatera drugiego')
+    n3 = Name(name='Nazwa Bohatera trzeciego')
 
     db.session.add_all([n1, n2, n3])
 
@@ -21,9 +21,9 @@ def populate_db():
     #for i in range(1,6):
     #    db.session.add(Skill(id=str(i), name='s' + str(i)))
 
-    a1 = Attribute(name='a1')
-    a2 = Attribute(name='a2')
-    a3 = Attribute(name='a3')
+    a1 = Attribute(name='Cecha pierwsza')
+    a2 = Attribute(name='Cecha druga')
+    a3 = Attribute(name='Cecha trzecia')
 
     for i in range(4,6):
         db.session.add(Attribute(name='a'+str(i)))
@@ -32,18 +32,18 @@ def populate_db():
     #for i in range(1,6):
     #    db.session.add(Attribute(id=str(i), name='a' + str(i)))
 
-    s1 = Skill(name='s1')
-    s2 = Skill(name='s2')
-    s3 = Skill(name='s3')
+    s1 = Skill(name='Umiejętność pierwsza')
+    s2 = Skill(name='Umiejętność druga')
+    s3 = Skill(name='Umiejętność trzecia')
 
     for i in range(4,6):
         db.session.add(Skill(name='s'+str(i)))
 
     db.session.add_all([s1, s2, s3])
 
-    i1 = Item(name='i1')
-    i2 = Item(name='i2')
-    i3 = Item(name='i3')
+    i1 = Item(name='Przedmiot pierwszy')
+    i2 = Item(name='Przedmiot drugi')
+    i3 = Item(name='Przedmiot trzeci')
 
     for i in range(4,6):
         db.session.add(Item(name='i'+str(i)))

@@ -4,10 +4,12 @@ from uuid import uuid4
 from flask_jwt_extended import (
         create_access_token, create_refresh_token,
         set_refresh_cookies, set_access_cookies,
-        verify_jwt_in_request, unset_jwt_cookies
+        verify_jwt_in_request, unset_jwt_cookies,
+        current_user
         )
 
 from app.account.models import User
+from app.generator.models import Character
 from app.shared.models import db
 
 def show_login_page():
@@ -59,3 +61,38 @@ def register_user():
 
     #return form
     return redirect(url_for("account.render_login"))
+
+def show_characters():
+    characters = db.session.execute(db.select(Character)
+                                        .join(User)
+                                        .filter_by(id=current_user.id)).scalars()
+    result = []  
+    for ch in characters:  
+        character_data = {}  
+        character_data['id'] = ch.id 
+        character_data['timestamp'] = ch.timestamp 
+        character_data['name'] = ch.name.name 
+        character_data['uid'] = ch.user.id
+
+        skill_list = [s.name for s in ch.skills]
+        print("skill list:")
+        print(skill_list)
+        character_data['skills'] = skill_list
+
+        attributes_list = [a.name for a in ch.attributes]
+        print("attributes list:")
+        print(attributes_list)
+        character_data['attributes'] = attributes_list
+
+        items_list = [i.name for i in ch.items]
+        print("items list:")
+        print(items_list)
+        character_data['items'] = items_list
+     
+        result.append(character_data)  
+
+    #character = db.session.execute(db.select(Character).join(Name).filter_by(name='n3')).scalar()
+    print("show characters")
+    #character = db.session.execute(db.select(Character).filter_by(id=1)).scalar()
+
+    return jsonify({'characters': result})
