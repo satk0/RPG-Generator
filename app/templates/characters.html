@@ -1,7 +1,24 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-	{% for character in characters %}
-		<p> {{character.timestamp}} - {{ character.name }} </p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Czas utworzenia</th>
+        <th scope="col">Imie</th>
+      </tr>
+    </thead>
+    <tbody>
+	<!-- TODO: make it clickable: https://www.geeksforgeeks.org/how-to-make-whole-row-in-a-table-clickable-as-link-in-bootstrap/ -->
+	{% for i, character in characters %}
+	  <a href="/">
+      <tr onclick="window.location='/'">
+	    <th scope="row"> {{ i+1 }}</th>
+		<td>{{ character.timestamp }}</td>
+		<td>{{ character.name }}</td>
+      </tr>
 	{% endfor %}
+    </tbody>
+  </table>
 {% endblock %}

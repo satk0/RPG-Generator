@@ -3,7 +3,6 @@ from app.generator.characters import (
         get_users, load_index, generate_character,
         show_character, remove_character
         )
-
 from flask_jwt_extended import jwt_required
 
 generator = Blueprint("generator", __name__)

@@ -101,5 +101,5 @@ def show_characters(user_id):
     #character = db.session.execute(db.select(Character).filter_by(id=1)).scalar()
 
     #return jsonify({'characters': result})
-    return render_template("characters.html", characters=result, title="RPG Generator",
+    return render_template("characters.html", characters=enumerate(result), title="RPG Generator",
                            user=current_user)
