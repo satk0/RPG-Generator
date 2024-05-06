@@ -69,12 +69,13 @@ def show_characters(user_id):
 
     characters = db.session.execute(db.select(Character)
                                         .join(User)
-                                        .filter_by(id=user_id)).scalars()
+                                        .filter_by(id=user_id)
+                                    ).scalars()
     result = []  
     for ch in characters:  
         character_data = {}  
         character_data['id'] = ch.id 
-        character_data['timestamp'] = ch.timestamp 
+        character_data['timestamp'] = ch.timestamp.strftime("%d.%m.%Y %H:%M:%S")
         character_data['name'] = ch.name.name 
         character_data['uid'] = ch.user.id
 
@@ -99,4 +100,6 @@ def show_characters(user_id):
     print("show characters")
     #character = db.session.execute(db.select(Character).filter_by(id=1)).scalar()
 
-    return jsonify({'characters': result})
+    #return jsonify({'characters': result})
+    return render_template("characters.html", characters=result, title="RPG Generator",
+                           user=current_user)
