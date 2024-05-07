@@ -30,24 +30,24 @@
 						<p class="text-center"> {{ character.timestamp }} </p>
 						  <div class="row">
 							<div class="col border">
-							  <p class="mb-1 pb-1 mt-2 text-center">Umiejętności:</p>
-							  <ul class="list-group">
+								<p class="mb-1 pb-1 mt-2 text-center"><b>Umiejętności</b></p>
+							  <ul class="list-group pb-3">
 							  {% for s in character.skills %}
 								  <li class="list-group-item p-1 text-center"> {{ s }} </li>
 							  {% endfor %}
 							  </ul>
 							</div>
 							<div class="col border">
-							  <p class="mb-1 pb-1 mt-2 text-center">Cechy:</p>
-							  <ul class="list-group">
+								<p class="mb-1 pb-1 mt-2 text-center"><b>Cechy</b></p>
+							  <ul class="list-group pb-3">
 							  {% for a in character.attributes %}
 								  <li class="list-group-item p-1 text-center"> {{ a }} </li>
 							  {% endfor %}
 							  </ul>
 							</div>
 							<div class="col border">
-							  <p class="mb-1 pb-1 mt-2 text-center">Przedmioty:</p>
-							  <ul class="list-group">
+								<p class="mb-1 pb-1 mt-2 text-center"><b>Przedmioty</b></p>
+							  <ul class="list-group pb-3">
 							  <!-- avoid character.items() error -->
 							  {% for i in character.get('items') %}
 								  <li class="list-group-item p-1 text-center"> {{ i }} </li>

@@ -64,12 +64,13 @@ def register_user():
 
 def show_characters(user_id):
     if (not current_user.id == user_id and not current_user.moderator):
-        print("LOL", current_user.id)
         abort(404)  
 
     characters = db.session.execute(db.select(Character)
                                         .join(User)
                                         .filter_by(id=user_id)
+                                        .order_by(Character.timestamp.desc())
+
                                     ).scalars()
     result = []  
     for ch in characters:  
