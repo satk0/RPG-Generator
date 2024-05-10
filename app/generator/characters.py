@@ -14,6 +14,8 @@ def load_index():
     return render_template("index.html", title="RPG Generator", user=current_user)
 
 def remove_character(character_id):
+
+    # TODO: restrict other users access
     ch = db.one_or_404(db.select(Character)
                         .filter_by(id=character_id)
                         .join(User)
