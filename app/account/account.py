@@ -62,15 +62,40 @@ def register_user():
     #return form
     return redirect(url_for("account.render_login"))
 
+def show_users():
+    if (not current_user.moderator):
+        abort(404)  
+
+    users = db.session.execute(db.select(User)
+                                        .order_by(User.name.asc())
+                               ).scalars()
+
+    result = []  
+    for u in users:  
+        u_data = {}  
+        u_data['id'] = u.id 
+        u_data['name'] = u.name
+     
+        result.append(u_data)  
+
+    #character = db.session.execute(db.select(Character).join(Name).filter_by(name='n3')).scalar()
+    print("show users")
+    #character = db.session.execute(db.select(Character).filter_by(id=1)).scalar()
+
+    #return jsonify({'characters': result})
+    return render_template("users.html", users=result, title="RPG Generator",
+                           user=current_user)
+
 def show_characters(user_id):
     if (not current_user.id == user_id and not current_user.moderator):
         abort(404)  
+
+    shown_user = db.one_or_404(db.select(User).filter_by(id=user_id))
 
     characters = db.session.execute(db.select(Character)
                                         .join(User)
                                         .filter_by(id=user_id)
                                         .order_by(Character.timestamp.desc())
-
                                     ).scalars()
     result = []  
     for ch in characters:  
@@ -103,4 +128,4 @@ def show_characters(user_id):
 
     #return jsonify({'characters': result})
     return render_template("characters.html", characters=enumerate(result), title="RPG Generator",
-                           user=current_user)
+                           user=current_user, shown_user=shown_user)

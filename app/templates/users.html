@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <div class="container text-center pb-4">
+	<div class="card shadow-lg ps-4 pe-4 pb-3">
+	<div class="card-header">
+		<h1 class="fs-4 card-title fw-bold mt-3 mb-3 text-center"> Użytkownicy </h1>
+	</div>
+	<div class="row">
+		<div class="col-2 py-2 border"> 
+			<b>id</b> 
+		</div> 
+		<div class="col-10 py-2 border"> 
+			<b>Nazwa użytkownika</b> 
+		</div> 
+    </div>
+		<div class="col-12"> 
+		{% for user in users %}
+			<a class="row clickable" 
+			   href="/user/{{user.id}}"
+			   style="text-decoration:none;">
+				<div class="col-2 py-2 border">
+					{{ user.id }}
+				</div>
+				<div class="col-10 py-2 border">
+					{{ user.name }}
+				</div>
+			</a> 
+		{% endfor %}
+		</div>
+	</div>
+  </div>
+{% endblock %}

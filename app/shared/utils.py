@@ -15,8 +15,9 @@ def populate_db():
     for i in range(4,6):
         db.session.add(Name(name='n'+str(i)))
 
-    u1 = User(id='1', name='u1', password='pass', moderator=False)
-    db.session.add(u1)
+    u1 = User(id='1', name='admin', password='admin', moderator=True)
+    u2 = User(id='2', name='u1', password='pass', moderator=False)
+    db.session.add_all([u1, u2])
 
     #for i in range(1,6):
     #    db.session.add(Skill(id=str(i), name='s' + str(i)))
