@@ -15,7 +15,7 @@
 			  {% if user.moderator %}
 				  <li><a class="dropdown-item" href="{{ url_for('account.get_users') }}">Użytkownicy</a></li>
 			  {% endif %}
-			  <li><a class="dropdown-item" href="{{ url_for('account.get_characters', user_id=user.id) }}">Postacie</a></li>
+			  <li><a class="dropdown-item" href="{{ url_for('account.get_user', user_id=user.id) }}">Postacie</a></li>
 			  <form method="post" action="{{ url_for('account.logout') }}">
 			<li><button name="logout-btn" class="dropdown-item" value="logout">Wyloguj</button></li>
 			</form>

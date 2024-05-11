@@ -101,5 +101,6 @@ def generate_character():
     #return make_response(jsonify({'should': "generate"}))
     return jsonify({'id': c.id})
 
-def get_users():
-    return render_template("user.html", title="RPG Generator")
+def regenerate_character(character_id):
+    print("character id:", character_id)
+    return jsonify({'id': 1})

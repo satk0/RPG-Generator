@@ -11,9 +11,6 @@
 						<div class="card-body p-5">
 							<h1 class="fs-4 card-title fw-bold mb-4">Rejestracja</h1>
 							<form method="POST" class="needs-validation" novalidate="" autocomplete="off">
-								<!--
-							   <input type="hidden" name="csrf_token" value=" csrf_token() }}"/>
-								-->
 								<div class="mb-3">
 									<label class="mb-2 text-muted" for="name">Nazwa użytkownika</label>
 									<input id="name" type="text" class="form-control" name="name" value="" required autofocus>
@@ -39,7 +36,7 @@
 						</div>
 						<div class="card-footer py-3 border-0">
 							<div class="text-center">
-								<a href="login" class="text-dark">Logowanie</a>
+								<a href="{{ url_for('account.get_login') }}" class="text-dark">Logowanie</a>
 							</div>
 						</div>
 					</div>

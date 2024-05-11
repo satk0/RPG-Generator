@@ -5,10 +5,11 @@
 {% block body %}
 	<script type = "text/javascript">
 		async function putIndex(id) {
-			res = await makeRequestWithJWT("put", "/id") 
+			res = await makeRequestWithJWT("put", "{{url_for('generator.put_character', character_id=0) }}".replace("0", `${id}`));
 
 			id = res["id"];
-			location.href = `/character/${id}`;
+			location.href = "{{ url_for('generator.get_character', character_id=0) }}"
+									.replace("0", `${id}`);
 		}
 
 		async function deleteCharacter(id) {

@@ -39,7 +39,7 @@ def login_user():
     return response
 
 def logout_user():
-    resp = make_response(redirect(url_for("account.render_login")))
+    resp = make_response(redirect(url_for("account.get_login")))
     unset_jwt_cookies(resp)
 
     return resp
@@ -86,7 +86,7 @@ def show_users():
     return render_template("users.html", users=result, title="RPG Generator",
                            user=current_user)
 
-def show_characters(user_id):
+def show_user(user_id):
     if (not current_user.id == user_id and not current_user.moderator):
         abort(404)  
 

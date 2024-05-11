@@ -4,13 +4,16 @@
 {% block body %}
 
 <!-- https://github.com/vimalloc/flask-jwt-extended/issues/385 -->
-<!-- move to layout.html -->
 <script type = "text/javascript">
 	async function postIndex() {
-		res = await makeRequestWithJWT("post", "/") 
+		res = await makeRequestWithJWT("post", "{{ url_for('generator.post_character') }}") 
 
 		id = res["id"];
-		location.href = `/character/${id}`;
+
+		// walkaround
+		// https://stackoverflow.com/a/50312867
+		location.href = "{{ url_for('generator.get_character', character_id=0)}}"
+													.replace("0", `${id}`);
 	}
 </script>
 

@@ -44,13 +44,13 @@ def user_lookup_callback(_jwt_header, jwt_data):
 
 @jwt.expired_token_loader
 def expired_token_callback(jwt_header, jwt_data):
-    resp = make_response(redirect(url_for("account.render_login")))
+    resp = make_response(redirect(url_for("account.get_login")))
     unset_jwt_cookies(resp)
     return resp
 
 @jwt.unauthorized_loader
 def unauthorized_token_callback(jwt_why):
-    resp = make_response(redirect(url_for("account.render_login")))
+    resp = make_response(redirect(url_for("account.get_login")))
     return resp
 
 @app.after_request
