@@ -23,7 +23,7 @@ def check_username_exist(form, field):
         raise ValidationError("Nazwa użytkownika już istnieje")
 
 
-class AccountForm(FlaskForm):
+class RegisterForm(FlaskForm):
     # autofocus: https://stackoverflow.com/a/47839747/17342313
     name = StringField("Nazwa użytkownika",
                        validators=[DataRequired(message="Nazwa użytkownika jest wymagana"),
@@ -31,15 +31,38 @@ class AccountForm(FlaskForm):
                        render_kw={'autofocus': True})
     password = PasswordField("Hasło", validators=[DataRequired(message="Nie wprowadzono hasła"),
                                                  Length(min=10, max=50),
-                                                 Regexp('(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)',
+                                                 Regexp('(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\\W)',
                                                         message="Hasło powinno składać się z małych i dużych liter, cyfr oraz znaków specjalnych")])
+
+class LoginForm(FlaskForm):
+    name = StringField("Nazwa użytkownika",
+                       validators=[DataRequired(message="Nazwa użytkownika jest wymagana"),
+                                   Length(min=4, max=20)],
+                       render_kw={'autofocus': True})
+    password = PasswordField("Hasło", validators=[DataRequired(message="Nie wprowadzono hasła"),
+                                                 Length(min=10, max=50)])
 
 def show_login_page():
     jwt = verify_jwt_in_request(optional=True)
     if jwt:
         return redirect(url_for("generator.index"))
 
-    form = AccountForm()
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = db.session.execute(db.select(User).filter_by(name=form.name.data, password=form.password.data)).scalar()
+        if not user:
+           # https://techmonger.github.io/64/wtf-custom-validation-hack/
+           form.password.errors.append("Błędny login lub hasło")
+           return render_template("login.html", title="RPG Generator", form=form)
+
+        access_token = create_access_token(identity=user)
+        refresh_token = create_refresh_token(identity=user)
+        
+        response = make_response(redirect(url_for("generator.index")))
+        set_access_cookies(response, access_token)
+        set_refresh_cookies(response, refresh_token)
+
+        return response
 
     return render_template("login.html", title="RPG Generator", form=form)
 
@@ -72,7 +95,7 @@ def register_page():
     if jwt:
         return redirect(url_for("generator.index"))
 
-    form = AccountForm()
+    form = RegisterForm()
     print(form.errors)
 
     if form.validate_on_submit():

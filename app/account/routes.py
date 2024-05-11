@@ -9,13 +9,13 @@ from flask_jwt_extended import jwt_required
 
 account = Blueprint("account", __name__)
 
-@account.route('/login', methods=['GET'])
+@account.route('/login', methods=['GET', 'POST'])
 def get_login():
     return show_login_page()
 
-@account.route('/login', methods=['POST'])
-def post_login():
-    return login_user()
+#@account.route('/login', methods=['POST'])
+#def post_login():
+#    return login_user()
 
 @account.route('/logout', methods=['POST'])
 def logout():
