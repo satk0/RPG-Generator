@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 class User(db.Model):
     id: Mapped[str] = mapped_column(String(60), primary_key=True)
     name: Mapped[str] = mapped_column(String(60), unique=True)
-    password: Mapped[str] = mapped_column(String(60))
+    password: Mapped[str] = mapped_column(String(255))
     moderator: Mapped[bool] = mapped_column(Boolean)
 
     characters: Mapped[List["Character"]] = relationship(back_populates="user")

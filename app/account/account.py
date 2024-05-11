@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, make_response, jsonify, abort
+from flask import render_template, redirect, url_for, make_response, abort
 
 from uuid import uuid4
 from flask_jwt_extended import (
@@ -15,6 +15,8 @@ from app.shared.models import db
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, ValidationError
 from wtforms.validators import DataRequired, Length, Regexp
+
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 def check_username_exist(form, field):
@@ -43,7 +45,7 @@ def register_page():
     print(form.errors)
 
     if form.validate_on_submit():
-        new_user = User(id=str(uuid4()), name=form.name.data, password=form.password.data, moderator=False)
+        new_user = User(id=str(uuid4()), name=form.name.data, password=generate_password_hash(form.password.data), moderator=False)
         db.session.add(new_user) 
         db.session.commit()
 
@@ -66,9 +68,13 @@ def login_page():
 
     form = LoginForm()
     if form.validate_on_submit():
-        user = db.session.execute(db.select(User).filter_by(name=form.name.data, password=form.password.data)).scalar()
+        user = db.session.execute(db.select(User).filter_by(name=form.name.data)).scalar()
         if not user:
            # https://techmonger.github.io/64/wtf-custom-validation-hack/
+           form.password.errors.append("Błędny login lub hasło")
+           return render_template("login.html", title="RPG Generator", form=form)
+
+        if not check_password_hash(user.password, form.password.data):
            form.password.errors.append("Błędny login lub hasło")
            return render_template("login.html", title="RPG Generator", form=form)
 

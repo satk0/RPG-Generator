@@ -5,7 +5,7 @@ from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
 
-from flask import Flask, url_for, redirect, make_response, abort
+from flask import Flask, url_for, redirect, make_response
 
 from app.shared.models import db
 from app.shared.utils import populate_db

@@ -1,6 +1,5 @@
 from flask import render_template, jsonify, abort
 from app.generator.models import Character, Name, Skill, Attribute, Item
-from app.account.models import User
 from app.shared.models import db
 
 from sqlalchemy import func
