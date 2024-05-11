@@ -51,7 +51,7 @@ def register_page():
 
         return redirect(url_for("account.login"))
 
-    return render_template("register.html", title="RPG Generator", form=form)
+    return render_template("account/register.html", title="RPG Generator", form=form)
 
 class LoginForm(FlaskForm):
     name = StringField("Nazwa użytkownika",
@@ -72,11 +72,11 @@ def login_page():
         if not user:
            # https://techmonger.github.io/64/wtf-custom-validation-hack/
            form.password.errors.append("Błędny login lub hasło")
-           return render_template("login.html", title="RPG Generator", form=form)
+           return render_template("account/login.html", title="RPG Generator", form=form)
 
         if not check_password_hash(user.password, form.password.data):
            form.password.errors.append("Błędny login lub hasło")
-           return render_template("login.html", title="RPG Generator", form=form)
+           return render_template("account/login.html", title="RPG Generator", form=form)
 
         access_token = create_access_token(identity=user)
         refresh_token = create_refresh_token(identity=user)
@@ -87,7 +87,7 @@ def login_page():
 
         return response
 
-    return render_template("login.html", title="RPG Generator", form=form)
+    return render_template("account/login.html", title="RPG Generator", form=form)
 
 def logout_user():
     resp = make_response(redirect(url_for("account.login")))
@@ -112,7 +112,7 @@ def show_users():
      
         result.append(u_data)  
 
-    return render_template("users.html", users=result, title="RPG Generator",
+    return render_template("account/users.html", users=result, title="RPG Generator",
                            user=current_user)
 
 def show_user(user_id):
@@ -151,5 +151,5 @@ def show_user(user_id):
      
         result.append(character_data)  
 
-    return render_template("characters.html", characters=enumerate(result), title="RPG Generator",
+    return render_template("account/characters.html", characters=enumerate(result), title="RPG Generator",
                            user=current_user, shown_user=shown_user)

@@ -10,7 +10,7 @@ from datetime import datetime
 
 
 def load_index():
-    return render_template("index.html", title="RPG Generator", user=current_user)
+    return render_template("generator/index.html", title="RPG Generator", user=current_user)
 
 def remove_character(character_id):
 
@@ -58,7 +58,7 @@ def show_character(character_id):
 
     print("character_data")
     print(character_data)
-    return render_template("character.html", character=character_data, title="RPG Generator",
+    return render_template("generator/character.html", character=character_data, title="RPG Generator",
                            user=current_user)
 
 def generate_character():
