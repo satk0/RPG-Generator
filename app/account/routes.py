@@ -23,13 +23,13 @@ def post_login():
 def logout():
     return logout_user()
 
-@account.route('/register', methods=['GET'])
-def get_register():
+@account.route('/register', methods=['GET', 'POST'])
+def register():
     return show_register_page()
 
-@account.route('/register', methods=['POST'])
-def post_register():
-    return register_user()
+#@account.route('/register', methods=['POST'])
+#def post_register():
+#    return register_user()
 
 @account.route('/user/<user_id>', methods=["GET"])
 @jwt_required()

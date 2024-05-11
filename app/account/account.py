@@ -12,12 +12,26 @@ from app.account.models import User
 from app.generator.models import Character
 from app.shared.models import db
 
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField
+from wtforms.validators import DataRequired, Length
+
+class AccountForm(FlaskForm):
+    # autofocus: https://stackoverflow.com/a/47839747/17342313
+    name = StringField("Nazwa użytkownika",
+                       validators=[DataRequired(), Length(min=4, max=20)],
+                       render_kw={'autofocus': True})
+    password = PasswordField("Hasło", validators=[DataRequired(),
+                                                 Length(min=10, max=50)])
+
 def show_login_page():
     jwt = verify_jwt_in_request(optional=True)
     if jwt:
         return redirect(url_for("generator.index"))
 
-    return render_template("login.html", title="RPG Generator")
+    form = AccountForm()
+
+    return render_template("login.html", title="RPG Generator", form=form)
 
 def login_user():
     form = request.form
@@ -31,7 +45,6 @@ def login_user():
     access_token = create_access_token(identity=user)
     refresh_token = create_refresh_token(identity=user)
     
-    #return redirect(url_for("generator.characters"))
     response = make_response(redirect(url_for("generator.index")))
     set_access_cookies(response, access_token)
     set_refresh_cookies(response, refresh_token)
@@ -49,7 +62,18 @@ def show_register_page():
     if jwt:
         return redirect(url_for("generator.index"))
 
-    return render_template("register.html", title="RPG Generator")
+    form = AccountForm()
+    if form.validate_on_submit():
+        print("Validated!")
+        new_user = User(id=str(uuid4()), name=form.name.data, password=form.password.data, moderator=False)
+        db.session.add(new_user) 
+        db.session.commit()
+
+        return redirect(url_for("account.get_login"))
+
+    print("Not validated")
+
+    return render_template("register.html", title="RPG Generator", form=form)
 
 def register_user():
     form = request.form
@@ -60,7 +84,7 @@ def register_user():
     db.session.commit()
 
     #return form
-    return redirect(url_for("account.render_login"))
+    return redirect(url_for("account.get_login"))
 
 def show_users():
     if (not current_user.moderator):
@@ -78,11 +102,6 @@ def show_users():
      
         result.append(u_data)  
 
-    #character = db.session.execute(db.select(Character).join(Name).filter_by(name='n3')).scalar()
-    print("show users")
-    #character = db.session.execute(db.select(Character).filter_by(id=1)).scalar()
-
-    #return jsonify({'characters': result})
     return render_template("users.html", users=result, title="RPG Generator",
                            user=current_user)
 
@@ -122,10 +141,5 @@ def show_user(user_id):
      
         result.append(character_data)  
 
-    #character = db.session.execute(db.select(Character).join(Name).filter_by(name='n3')).scalar()
-    print("show characters")
-    #character = db.session.execute(db.select(Character).filter_by(id=1)).scalar()
-
-    #return jsonify({'characters': result})
     return render_template("characters.html", characters=enumerate(result), title="RPG Generator",
                            user=current_user, shown_user=shown_user)

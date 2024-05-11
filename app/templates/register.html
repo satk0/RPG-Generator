@@ -10,18 +10,20 @@
 					<div class="card shadow-lg">
 						<div class="card-body p-5">
 							<h1 class="fs-4 card-title fw-bold mb-4">Rejestracja</h1>
-							<form method="POST" class="needs-validation" novalidate="" autocomplete="off">
+							<form method="POST" autocomplete="off">
 								<div class="mb-3">
-									<label class="mb-2 text-muted" for="name">Nazwa użytkownika</label>
-									<input id="name" type="text" class="form-control" name="name" value="" required autofocus>
+									{{ form.name.label(class_ = "mb-2 text-muted") }}
+									{{ form.name(class_ = "form-control") }}
+
 									<div class="invalid-feedback">
 										Nazwa użytkownika jest wymagane
 									</div>
 								</div>
 
 								<div class="mb-3">
-									<label class="mb-2 text-muted" for="password">Hasło</label>
-									<input id="password" type="password" class="form-control" name="password" required>
+									{{ form.password.label(class_ = "mb-2 text-muted") }}
+									{{ form.password(class_ = "form-control") }}
+
 								    <div class="invalid-feedback">
 								    	Hasło jest wymagane
 							    	</div>
@@ -33,6 +35,13 @@
 									</button>
 								</div>
 							</form>
+							{% if form.password.errors %}
+								<ul class="errors">
+									{% for error in form.password.errors %}
+										<li>{{ error }}</li>
+									{% endfor %}
+								</ul>
+							{% endif %}
 						</div>
 						<div class="card-footer py-3 border-0">
 							<div class="text-center">

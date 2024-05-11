@@ -14,7 +14,7 @@ from app.generator.routes import generator
 from app.account.routes import account
 from app.account.models import User
 
-from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, get_jwt_identity, get_jwt, set_access_cookies, set_refresh_cookies, current_user, unset_jwt_cookies
+from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, get_jwt, set_access_cookies, set_refresh_cookies, current_user, unset_jwt_cookies
 
 
 load_dotenv()
@@ -28,9 +28,6 @@ app.config['JWT_CSRF_CHECK_FORM'] = True
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 
 jwt = JWTManager(app)
-
-#csrf = CSRFProtect()
-#csrf.init_app(app)
 
 # register function to create JWT from User object
 @jwt.user_identity_loader
