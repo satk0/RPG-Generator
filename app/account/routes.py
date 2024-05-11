@@ -1,9 +1,7 @@
 from flask import Blueprint
 from app.account.account import (
-            show_login_page, login_user,
-            register_user, show_register_page,
-            logout_user, show_user,
-            show_users
+            show_login_page, login_user, register_page,
+            logout_user, show_user, show_users
         )
 
 from flask_jwt_extended import jwt_required
@@ -25,11 +23,7 @@ def logout():
 
 @account.route('/register', methods=['GET', 'POST'])
 def register():
-    return show_register_page()
-
-#@account.route('/register', methods=['POST'])
-#def post_register():
-#    return register_user()
+    return register_page()
 
 @account.route('/user/<user_id>', methods=["GET"])
 @jwt_required()

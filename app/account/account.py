@@ -13,16 +13,26 @@ from app.generator.models import Character
 from app.shared.models import db
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField
-from wtforms.validators import DataRequired, Length
+from wtforms import StringField, PasswordField, ValidationError
+from wtforms.validators import DataRequired, Length, Regexp
+
+
+def check_username_exist(form, field):
+    user = db.session.execute(db.select(User).filter_by(name=field.data)).scalar()
+    if user:
+        raise ValidationError("Nazwa użytkownika już istnieje")
+
 
 class AccountForm(FlaskForm):
     # autofocus: https://stackoverflow.com/a/47839747/17342313
     name = StringField("Nazwa użytkownika",
-                       validators=[DataRequired(), Length(min=4, max=20)],
+                       validators=[DataRequired(message="Nazwa użytkownika jest wymagana"),
+                                   Length(min=4, max=20), check_username_exist],
                        render_kw={'autofocus': True})
-    password = PasswordField("Hasło", validators=[DataRequired(),
-                                                 Length(min=10, max=50)])
+    password = PasswordField("Hasło", validators=[DataRequired(message="Nie wprowadzono hasła"),
+                                                 Length(min=10, max=50),
+                                                 Regexp('(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)',
+                                                        message="Hasło powinno składać się z małych i dużych liter, cyfr oraz znaków specjalnych")])
 
 def show_login_page():
     jwt = verify_jwt_in_request(optional=True)
@@ -57,34 +67,22 @@ def logout_user():
 
     return resp
 
-def show_register_page():
+def register_page():
     jwt = verify_jwt_in_request(optional=True)
     if jwt:
         return redirect(url_for("generator.index"))
 
     form = AccountForm()
+    print(form.errors)
+
     if form.validate_on_submit():
-        print("Validated!")
         new_user = User(id=str(uuid4()), name=form.name.data, password=form.password.data, moderator=False)
         db.session.add(new_user) 
         db.session.commit()
 
         return redirect(url_for("account.get_login"))
 
-    print("Not validated")
-
     return render_template("register.html", title="RPG Generator", form=form)
-
-def register_user():
-    form = request.form
-    print(form["password"])
-
-    new_user = User(id=str(uuid4()), name=form['name'], password=form["password"], moderator=False)
-    db.session.add(new_user) 
-    db.session.commit()
-
-    #return form
-    return redirect(url_for("account.get_login"))
 
 def show_users():
     if (not current_user.moderator):

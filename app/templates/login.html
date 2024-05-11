@@ -13,6 +13,7 @@
 							<form method="POST" autocomplete="off">
 								<div class="mb-3">
 									<!-- https://stackoverflow.com/a/24841273/17342313 -->
+									{{ form.csrf_token }}
 									{{ form.name.label(class_ = "mb-2 text-muted") }}
 									{{ form.name(class_ = "form-control") }}
 
