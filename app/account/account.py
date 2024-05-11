@@ -34,6 +34,23 @@ class RegisterForm(FlaskForm):
                                                  Regexp('(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\\W)',
                                                         message="Hasło powinno składać się z małych i dużych liter, cyfr oraz znaków specjalnych")])
 
+def register_page():
+    jwt = verify_jwt_in_request(optional=True)
+    if jwt:
+        return redirect(url_for("generator.index"))
+
+    form = RegisterForm()
+    print(form.errors)
+
+    if form.validate_on_submit():
+        new_user = User(id=str(uuid4()), name=form.name.data, password=form.password.data, moderator=False)
+        db.session.add(new_user) 
+        db.session.commit()
+
+        return redirect(url_for("account.login"))
+
+    return render_template("register.html", title="RPG Generator", form=form)
+
 class LoginForm(FlaskForm):
     name = StringField("Nazwa użytkownika",
                        validators=[DataRequired(message="Nazwa użytkownika jest wymagana"),
@@ -42,7 +59,7 @@ class LoginForm(FlaskForm):
     password = PasswordField("Hasło", validators=[DataRequired(message="Nie wprowadzono hasła"),
                                                  Length(min=10, max=50)])
 
-def show_login_page():
+def login_page():
     jwt = verify_jwt_in_request(optional=True)
     if jwt:
         return redirect(url_for("generator.index"))
@@ -66,46 +83,12 @@ def show_login_page():
 
     return render_template("login.html", title="RPG Generator", form=form)
 
-def login_user():
-    form = request.form
-
-    print("NAME:", form["name"])
-    user = db.session.execute(db.select(User).filter_by(name=form["name"], password=form["password"])).scalar()
-
-    if not user:
-       return make_response('could not verify', 401, {'Authentication': 'login required"'})   
-
-    access_token = create_access_token(identity=user)
-    refresh_token = create_refresh_token(identity=user)
-    
-    response = make_response(redirect(url_for("generator.index")))
-    set_access_cookies(response, access_token)
-    set_refresh_cookies(response, refresh_token)
-
-    return response
-
 def logout_user():
-    resp = make_response(redirect(url_for("account.get_login")))
+    resp = make_response(redirect(url_for("account.login")))
     unset_jwt_cookies(resp)
 
     return resp
 
-def register_page():
-    jwt = verify_jwt_in_request(optional=True)
-    if jwt:
-        return redirect(url_for("generator.index"))
-
-    form = RegisterForm()
-    print(form.errors)
-
-    if form.validate_on_submit():
-        new_user = User(id=str(uuid4()), name=form.name.data, password=form.password.data, moderator=False)
-        db.session.add(new_user) 
-        db.session.commit()
-
-        return redirect(url_for("account.get_login"))
-
-    return render_template("register.html", title="RPG Generator", form=form)
 
 def show_users():
     if (not current_user.moderator):

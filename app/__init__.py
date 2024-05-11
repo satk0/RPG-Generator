@@ -5,7 +5,7 @@ from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
 
-from flask import Flask, url_for, redirect, make_response
+from flask import Flask, url_for, redirect, make_response, abort
 
 from app.shared.models import db
 from app.shared.utils import populate_db
@@ -41,13 +41,18 @@ def user_lookup_callback(_jwt_header, jwt_data):
 
 @jwt.expired_token_loader
 def expired_token_callback(jwt_header, jwt_data):
-    resp = make_response(redirect(url_for("account.get_login")))
+    resp = make_response(redirect(url_for("account.login")))
     unset_jwt_cookies(resp)
+    return resp
+
+@app.errorhandler(404)
+def page_not_found(error):
+    resp = make_response(redirect(url_for("account.login")))
     return resp
 
 @jwt.unauthorized_loader
 def unauthorized_token_callback(jwt_why):
-    resp = make_response(redirect(url_for("account.get_login")))
+    resp = make_response(redirect(url_for("account.login")))
     return resp
 
 @app.after_request
