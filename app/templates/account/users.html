@@ -7,10 +7,10 @@
 		<h1 class="fs-4 card-title fw-bold mt-3 mb-3 text-center"> Użytkownicy </h1>
 	</div>
 	<div class="row">
-		<div class="col-2 py-2 border"> 
+		<div class="col-4 py-2 border"> 
 			<b>id</b> 
 		</div> 
-		<div class="col-10 py-2 border"> 
+		<div class="col-8 py-2 border"> 
 			<b>Nazwa użytkownika</b> 
 		</div> 
     </div>
@@ -19,10 +19,10 @@
 			<a class="row clickable" 
 			   href="{{ url_for('account.get_user', user_id=user.id) }}"
 			   style="text-decoration:none;color:#000000;">
-				<div class="col-2 py-2 border">
+				<div class="col-4 py-2 border">
 					{{ user.id }}
 				</div>
-				<div class="col-10 py-2 border">
+				<div class="col-8 py-2 border">
 					{{ user.name }}
 				</div>
 			</a> 
