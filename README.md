@@ -1,5 +1,20 @@
+<div align="center">
+
 # RPG-Generator
-RPG Generator Web App made using Flask
+
+RPG Cards Generator Web App made using Flask
+
+</div>
+
+===========
+
+![RPG Generator](assets/rpg-card.png)
+
+![RPG Generator](assets/rpg-characters.png)
+
+## ERD Schema:
+
+![RPG Generator](assets/ERD_schema.png)
 
 ## Setup:
 1. .env configuration:
